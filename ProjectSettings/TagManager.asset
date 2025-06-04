@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - P1
+  - P2
+  - userSpawner
+  - aiSpawner
+  - playerCastle
+  - aiCastle
   layers:
   - Default
   - TransparentFX
