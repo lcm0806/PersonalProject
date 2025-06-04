@@ -17,11 +17,20 @@ public class SpawnManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance is null) Instance = this;
-        else
+        if (Instance != null && Instance != this)
         {
-            Debug.LogError("SpawnManager 가 두개 이상으로 싱글톤 패턴을 구현 할 수 없습니다.");
+            Debug.LogWarning("중복된 CharacterDataContainer 인스턴스 감지. 이 인스턴스를 파괴합니다.");
+            Destroy(gameObject); // 이 (중복된) 게임 오브젝트를 파괴
+            return; // 더 이상 이 Awake 함수를 진행하지 않고 종료
         }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
+        //if (Instance is null) Instance = this;
+        //else
+        //{
+        //    Debug.LogError("SpawnManager 가 두개 이상으로 싱글톤 패턴을 구현 할 수 없습니다.");
+        //}
         userSpawner = GameObject.FindGameObjectWithTag(UserSpawnerTag)?.GetComponent<ICharacterSpawner>();
         aiSpawner = GameObject.FindGameObjectWithTag(AISpawnerTag)?.GetComponent<ICharacterSpawner>();
         if (userSpawner is null || aiSpawner is null) throw new System.NullReferenceException("스포너 찾기 실패!");

@@ -138,7 +138,7 @@ public class CharacterUnit : GameUnit
     protected Unit AttackTarget;
 
     private string _characterName = "Unit";
-    private float _moveSpeed = 5f;
+    private float _moveSpeed = 1f;
     private float _atk = 1f;
     private float _normalAttackCooldown = 1f;
     private float _noramlAttackCastingTime = 0.25f;
@@ -208,7 +208,7 @@ public class CharacterUnit : GameUnit
         if (!_target.gameObject.activeInHierarchy) return false;
         
 
-        SetState(UnitState.idle);
+        //SetState(UnitState.idle);
 
         return true;
 
@@ -221,7 +221,8 @@ public class CharacterUnit : GameUnit
         {
             
             _target = SoonsoonData.Instance.GAM.GetTarget(this, this.Teams);
-            //Debug.Log(SoonsoonData.Instance.GAM.GetTarget(this, this.Teams));
+            Debug.Log(SoonsoonData.Instance.GAM.GetTarget(this, this.Teams));
+            Debug.Log(this.Teams.ToString());
             if (_target == null)
             {
                 _target = GameManager.GetEnemyCastle(this.Teams);

@@ -8,11 +8,11 @@ public class CastleUnit : GameUnit
     {
         if (gameObject.CompareTag("playerCastle")) // Unity 에디터에서 PlayerCastle 태그를 만들고 성채에 할당
         {
-            SetTeam(Team.P1); // SetTeam 메서드가 GameUnit 또는 CastleUnit에 정의되어 있어야 합니다.
+            SetTeam(Team.P2); // SetTeam 메서드가 GameUnit 또는 CastleUnit에 정의되어 있어야 합니다.
         }
         else if (gameObject.CompareTag("aiCastle")) // Unity 에디터에서 AICastle 태그를 만들고 성채에 할당
         {
-            SetTeam(Team.P2);
+            SetTeam(Team.P1);
         }
         else
         {          

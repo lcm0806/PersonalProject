@@ -61,8 +61,18 @@ public class GameManager : MonoBehaviour
         List<CharacterUnit> tList = new List<CharacterUnit>();
         switch (team)
         {
-            case Team.P1: tList = SpawnManager.Instance.PlayerUnits; break;
-            case Team.P2: tList = SpawnManager.Instance.AIUnits; break;
+            case Team.P1:
+                {
+                    tList = SpawnManager.Instance.PlayerUnits; 
+                    Debug.Log("GetTarget: " + unit.name + " (" + team + ") 이 AI 유닛 리스트 탐색 중. 리스트 크기: " + SpawnManager.Instance.AIUnits.Count);
+                    break;
+                }
+            case Team.P2:
+                {
+                    tList = SpawnManager.Instance.AIUnits;
+                    Debug.Log("GetTarget: " + unit.name + " (" + team + ") 이 플레이어 유닛 리스트 탐색 중. 리스트 크기: " + SpawnManager.Instance.PlayerUnits.Count);
+                    break;
+                }
         }
 
         float tSDis = 99999;
@@ -72,8 +82,8 @@ public class GameManager : MonoBehaviour
             if (tList[i] == null || !tList[i].gameObject.activeInHierarchy)
             {
                 // 리스트에서 제거하는 로직을 추가하는 것을 고려해볼 수 있습니다.
-                // SpawnManager.Instance.PlayerUnits.RemoveAt(i);
-                // i--; // 제거 후에는 인덱스를 하나 줄여야 다음 요소를 건너뛰지 않습니다.
+                 //SpawnManager.Instance.PlayerUnits.RemoveAt(i);
+                 //i--; // 제거 후에는 인덱스를 하나 줄여야 다음 요소를 건너뛰지 않습니다.
                 continue; // 유효하지 않은 대상이므로 건너뜁니다.
             }
             float tDis = ((Vector2)tList[i].transform.localPosition - (Vector2)unit.transform.localPosition).sqrMagnitude; // 루트처리가 되지않은 거리를 찾는 것은 가벼움
@@ -87,7 +97,7 @@ public class GameManager : MonoBehaviour
                         {
                             tUnit = tList[i];
                             tSDis = tDis;
-                            Debug.Log(tUnit);
+                            Debug.Log("GetTarget: " + unit.name + " (" + team + ") 이 새로운 대상 찾음: " + tUnit.name + " (팀: " + tUnit.Teams + ") 거리: " + tDis);
                         }
                     }
                 }

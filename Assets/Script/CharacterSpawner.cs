@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CharacterSpawner : MonoBehaviour , ICharacterSpawner
@@ -86,6 +87,21 @@ public class CharacterSpawner : MonoBehaviour , ICharacterSpawner
         characterUnitComponent.SetTeam(request.TeamInfo);
         // 여기에 추가적으로 캐릭터의 공격력, 방어력의 스탯등을 적용하는 코드들을 작성한다.
         // 업그레이드 시스템을 아직 안만들었음으로 일단은 팀 정보만 적용했다.
+
+        switch (request.TeamInfo)
+        {
+            case Team.P2:
+                SpawnManager.Instance.PlayerUnits.Add(characterUnitComponent);
+                //Debug.Log($"SpawnManager: {characterUnitComponent.name} (Team P1)을 PlayerUnits에 추가. 현재 크기: {PlayerUnits.Count}");
+                break;
+            case Team.P1:
+                SpawnManager.Instance.AIUnits.Add(characterUnitComponent);
+                //Debug.Log($"SpawnManager: {characterUnitComponent.name} (Team P2)을 AIUnits에 추가. 현재 크기: {AIUnits.Count}");
+                break;
+            default:
+                Debug.LogWarning($"SpawnManager: 알 수 없는 팀 정보 ({request.TeamInfo})로 유닛 {characterUnitComponent.name}이 생성되어 리스트에 추가되지 않았습니다.");
+                break;
+        }
 
         return characterUnitComponent;
     }
