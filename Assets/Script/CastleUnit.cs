@@ -19,6 +19,11 @@ public class CastleUnit : GameUnit
             SetTeam(Team.None); // 안전을 위해 None으로 설정
         }
     }
+
+    public void Update()
+    {
+        
+    }
     public override void SetTeam(Team settingValue)
     {
         if (settingValue == Team.P2)
@@ -31,6 +36,8 @@ public class CastleUnit : GameUnit
         }
         base.SetTeam(settingValue);
     }
+
+
 
     protected override void OnDie()
     {

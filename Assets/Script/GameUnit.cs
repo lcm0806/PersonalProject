@@ -41,6 +41,19 @@ public abstract class GameUnit : MonoBehaviour
 
     public virtual void TakeDamage(GameUnit unit, Attack attack)
     {
+        float actualDamage = attack.GetDemageAmount() - Armor;
+        // 실제 데미지가 0보다 작으면 데미지를 주지 않음 (방어력이 너무 높을 때)
+        if (actualDamage < 0) actualDamage = 0;
+
+        HP -= actualDamage; // 이 부분이 정확한지 확인
+
+        //Debug.Log($"{this.name} took {actualDamage} damage. Current HP: {HP}"); // 디버그 로그 추가
+
+        if (HP <= 0)
+        {
+            HP = 0; // HP가 음수가 되는 것을 방지
+            OnDie(); // CastleUnit의 OnDie가 호출될 것으로 예상
+        }
     }
 
 
