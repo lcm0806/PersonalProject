@@ -50,6 +50,12 @@ public class GameManager : MonoBehaviour
 
     public CharacterUnit GetTarget(CharacterUnit unit,Team team)
     {
+        if (unit == null || !unit.gameObject.activeInHierarchy)
+        {
+            // Debug.LogWarning("GetTarget: 요청한 CharacterUnit이 null이거나 비활성화/파괴되어 대상 탐색을 중단합니다.");
+            return null; // 유효하지 않은 unit이므로 대상을 찾을 수 없음
+        }
+
         CharacterUnit tUnit = null;
 
         List<CharacterUnit> tList = new List<CharacterUnit>();
@@ -63,6 +69,13 @@ public class GameManager : MonoBehaviour
 
         for (var i = 0; i < tList.Count; i++)
         {
+            if (tList[i] == null || !tList[i].gameObject.activeInHierarchy)
+            {
+                // 리스트에서 제거하는 로직을 추가하는 것을 고려해볼 수 있습니다.
+                // SpawnManager.Instance.PlayerUnits.RemoveAt(i);
+                // i--; // 제거 후에는 인덱스를 하나 줄여야 다음 요소를 건너뛰지 않습니다.
+                continue; // 유효하지 않은 대상이므로 건너뜁니다.
+            }
             float tDis = ((Vector2)tList[i].transform.localPosition - (Vector2)unit.transform.localPosition).sqrMagnitude; // 루트처리가 되지않은 거리를 찾는 것은 가벼움
             if(tDis <= unit.EnemyDetectionRadious * unit.EnemyDetectionRadious)
             {

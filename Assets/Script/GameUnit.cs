@@ -17,7 +17,7 @@ public abstract class GameUnit : MonoBehaviour
     private float _armor = 0;
     private UnityEvent _dieEvent;
     private float _enemyDetectRadius = 100f;
-
+    internal CharacterUnit.UnitState _unitState;
 
     private void Awake()
     {

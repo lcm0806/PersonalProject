@@ -79,7 +79,8 @@ public class CharacterUnit : GameUnit
                 break;
 
             case UnitState.death:
-                //SetDeathDone();
+                _target = null;
+                SetDeathDone();
                 break;
 
 
@@ -201,8 +202,11 @@ public class CharacterUnit : GameUnit
         
         if (_target == null) return false;
         if (_target.HP <= 0) return false;
-        if(_target.gameObject == null) return false;
+        if (_target._unitState == UnitState.death)return false;
+            
+        if (_target.gameObject == null) return false;
         if (!_target.gameObject.activeInHierarchy) return false;
+        
 
         SetState(UnitState.idle);
 
@@ -241,7 +245,12 @@ public class CharacterUnit : GameUnit
 
     void CheckAttack()
     {
-        if (!CheckTarget()) return;
+        Debug.Log(CheckTarget());
+        if (!CheckTarget())
+        {
+            _target = null;
+            FindTarget(); return;
+        }
         if (!CheckDistance()) return;
 
         _attackTimer += Time.deltaTime;
@@ -256,11 +265,10 @@ public class CharacterUnit : GameUnit
     {
         _animator.SetTrigger("2_Attack");
         _target.TakeDamage(_target,basicAttack);
-        if (_target.HP <= 0)
+        if(_target.HP <= 0)
         {
-            FindTarget();
+            SetDeath(this.Teams);
         }
-        //Debug.Log(_target.HP);
     }
 
     public void SetDeath(Team team)
@@ -276,7 +284,7 @@ public class CharacterUnit : GameUnit
 
     public void SetDeathDone()
     {
-        Destroy(gameObject);
+        Destroy(gameObject,3f);
     }
 
     public override void TakeDamage(GameUnit unit, Attack attack)
