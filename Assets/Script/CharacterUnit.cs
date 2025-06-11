@@ -26,6 +26,8 @@ public class CharacterUnit : GameUnit
 
     public GameUnit _target;
 
+    private GameManager gm;
+
 
     public float _findTimer;
     public string CharacterName { get => _characterName; }
@@ -266,10 +268,6 @@ public class CharacterUnit : GameUnit
     {
         _animator.SetTrigger("2_Attack");
         _target.TakeDamage(_target,basicAttack);
-        if(_target.HP <= 0)
-        {
-            SetDeath(this.Teams);
-        }
     }
 
     public void SetDeath(Team team)
@@ -277,7 +275,11 @@ public class CharacterUnit : GameUnit
         switch (team)
         {
             case Team.P1: SpawnManager.Instance.PlayerUnits.Remove(this); break;
-            case Team.P2: SpawnManager.Instance.AIUnits.Remove(this); break; 
+            case Team.P2: 
+                { 
+                    SpawnManager.Instance.AIUnits.Remove(this);
+                    break; 
+                } 
         }
 
         SetState(UnitState.death);

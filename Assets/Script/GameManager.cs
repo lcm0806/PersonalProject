@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
 
     public float _findTimer;
 
+    public int Gold { get; private set; } // 골드 값
+    public int UnitCost = 10; // 유닛 생성 비용 예시
 
     private void Awake()
     {
@@ -24,6 +26,19 @@ public class GameManager : MonoBehaviour
 
         if (_playerCastle is null || _aiCastle is null)
             throw new System.NullReferenceException("성채를 찾을 수 없습니다!");
+    }
+
+    public bool TryUseGold(int amount)
+    {
+        if (Gold >= amount)
+        {
+            Gold -= amount;
+            //Debug.Log($"Gold spent: {amount}, Remaining: {Gold}");
+            // OnGoldChanged?.Invoke(Gold); // 골드 변경 이벤트 발동
+            return true;
+        }
+        //Debug.LogWarning("Not enough gold!");
+        return false;
     }
 
     // Start is called before the first frame update
@@ -45,8 +60,6 @@ public class GameManager : MonoBehaviour
 
         
     //}
-
-
 
     public CharacterUnit GetTarget(CharacterUnit unit,Team team)
     {
@@ -97,7 +110,7 @@ public class GameManager : MonoBehaviour
                         {
                             tUnit = tList[i];
                             tSDis = tDis;
-                            Debug.Log("GetTarget: " + unit.name + " (" + team + ") 이 새로운 대상 찾음: " + tUnit.name + " (팀: " + tUnit.Teams + ") 거리: " + tDis);
+                            //Debug.Log("GetTarget: " + unit.name + " (" + team + ") 이 새로운 대상 찾음: " + tUnit.name + " (팀: " + tUnit.Teams + ") 거리: " + tDis);
                         }
                     }
                 }
